@@ -11,7 +11,7 @@ var url =
 
 router.post("/", function (req, res) {
   console.log(req.body);
-  var U1 = req.body.id;
+  var U1 = req.body._id;
   console.log("IN del PRODUCT");
 
   MongoClient.connect(

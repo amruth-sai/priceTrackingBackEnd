@@ -21,7 +21,7 @@ router.post('/',function(req, res) {
             if (err) throw err;
             // if(result.mail==U1)
             
-            console.log(result);
+            console.log(result[0]);
             db.close();
             res.send(result);
           });
