@@ -6,23 +6,33 @@ var MongoClient = require("mongodb").MongoClient;
 var url =
   "mongodb+srv://admin:admin@producttracking.7oyuk.mongodb.net/admin1?retryWrites=true&w=majority";
 
-router.post("/", function (req, res) {
+router.post("/", function (req, response) {
+  var status=true;
   console.log(req.body);
   var link1 = req.body.link;
   var username = req.body.username;
   var cost;
   var iLink;
   console.log(link1, username);
+  try{
   request(link1, (err, res, html) => {
     // console.log(html);
     var $ = cheerio.load(html);
     console.log("Here");
+    var name="";
+    try{
     cost = $(".apexPriceToPay").text().split("₹")[1]; //PriceToPay
     iLink = $("#imgTagWrapperId").children().first()["0"]["attribs"]["src"];
-    var name = $("#productTitle").text() //PriceToPay
+    name = $("#productTitle").text() //PriceToPay
+    }
+    catch(err){
+      console.log("ERROR HERE");
+      status=false;
+      response.send({success:false})
+      return;
+    }
     console.log(cost.split("₹")[1]);
     console.log(iLink);
-
     MongoClient.connect(
       url,
       { useNewUrlParser: true, useUnifiedTopology: true },
@@ -39,9 +49,13 @@ router.post("/", function (req, res) {
           console.log("INSERTED");
           db.close();
         });
+        response.send({success:true})
       }
     );
-  });
-  // res.redirect('/');
+  })}
+  catch(err) {
+    status=false; 
+  }
+  
 });
 module.exports = router;
