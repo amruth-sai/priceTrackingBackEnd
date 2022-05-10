@@ -21,7 +21,9 @@ router.post("/", function (req, response) {
       console.log("Here");
       var name = "";
       try {
-        cost = $(".apexPriceToPay").text().split("₹")[1]; //PriceToPay
+        
+        // console.log($.text().split("₹")[1]);
+        cost = $("#apex_desktop").text().split("₹")[1]; //PriceToPay
         iLink = $("#imgTagWrapperId").children().first()["0"]["attribs"]["src"];
         name = $("#productTitle").text(); //PriceToPay
       } catch (err) {
